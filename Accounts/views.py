@@ -23,7 +23,7 @@ def sign_up(request: HttpRequest):
     if request.method == "POST":
         if form.is_valid():
             form.save()
-            # messages.success(request=request, message="Реєстрація успішна!")
+            # messages.success(request=request, message="Реєстрація успішна")
             # return redirect("sign_in")
             return JsonResponse(dict(status="success"), status=200)
         else:
@@ -32,6 +32,7 @@ def sign_up(request: HttpRequest):
 
 
 def sign_in(request: HttpRequest):
+    # form = AuthenticationForm(request, data=request.POST or None)
     form = LoginForm(request, data=request.POST or None)
     if request.method == "POST" and form.is_valid():
         user = authenticate(
@@ -41,13 +42,13 @@ def sign_in(request: HttpRequest):
         if not user:
             messages.warning(request, "Такого користувача не існує")
             return redirect("sign_in")
-        
+
         login(request=request, user=user)
         if form.cleaned_data.get("remember"):
             request.session.set_expiry(None)
         else:
+            print("Не пам'ятати")
             request.session.set_expiry(0)
-
 
         return redirect("index")
     return render(request, "sign_in.html", dict(form=form))
@@ -64,36 +65,32 @@ def logout_user(request: HttpRequest):
     return redirect("sign_in")
 
 
-
 @login_required
 @require_GET
 # @cache_page(30)
-def profile_get(request:HttpRequest):
-    # user=cache.get(f"user_form{request.user.username}")
-    # profile=cache.get(f"profile_form{request.user.username}")
+def profile_get(request: HttpRequest):
+    # user = cache.get(f"user_form_{request.user.username}")
+    # profile = cache.get(f"profile_form_{request.user.username}")
 
     # if not user:
     #     user = request.user
-    #     cache.set(f"user_form{request.user.username}",user,30)
-
+    #     cache.set(f"user_form_{request.user.username}", user, 30)
 
     # if not profile:
     #     profile = request.user.details
-    #     cache.set(f"profile_form{request.user.username}",profile,30)
+    #     cache.set(f"profile_form_{request.user.username}", profile, 30)
 
     user_form = UserForm(instance=request.user)
     profile_form = ProfileForm(instance=request.user.details)
-   
 
-    return render(request,"profile.html",context=dict(user_form=user_form,profile_form=profile_form))
-
+    return render(request, "profile.html", context=dict(user_form=user_form, profile_form=profile_form))
 
 
 @login_required
 @require_POST
-def profile_post(request:HttpRequest):
-    user_form=UserForm(data=request.POST ,instance=request.user)
-    profile_form=ProfileForm(data=request.POST, files=request.FILES, instance=request.user.details)
+def profile_post(request: HttpRequest):
+    user_form = UserForm(data=request.POST, instance=request.user)
+    profile_form = ProfileForm(data=request.POST, files=request.FILES, instance=request.user.details)
 
     if profile_form.is_valid():
         messages.info(request, "Дані успішно оновлені")
@@ -112,5 +109,5 @@ def profile_post(request:HttpRequest):
 @api_view(["GET"])
 def test_api(request: HttpRequest):
     profile = Profile.objects.get(user=request.user)
-    data = ProfileSerializer(instance=profile)
+    data = ProfileSerializer(profile)
     return Response(data.data)

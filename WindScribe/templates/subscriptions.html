@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 style="color: rgb(0, 254, 254);">Виберіть свою підписку</h1>
+<h1 style="color: aqua">Виберіть свою підписку</h1>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}

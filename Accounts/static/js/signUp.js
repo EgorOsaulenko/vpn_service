@@ -1,10 +1,10 @@
 $(document).ready(function () {
+    console.log("Пуск")
     $(".form").submit(function (event) {
         event.preventDefault();
         var form = $(this);
         var url = form.attr("action");
         var data = form.serialize();
-
 
         $.ajax({
             type: "POST",

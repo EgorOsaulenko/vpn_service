@@ -9,4 +9,4 @@ class SubForm(forms.Form):
         label="Виберіть підписку",
         widget=forms.Select(attrs={"class": "form-control"}),
         empty_label="Виберіть підписку"
-        )
+    )

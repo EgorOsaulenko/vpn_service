@@ -1,5 +1,3 @@
-from typing import List
-
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -32,6 +30,3 @@ class Service(models.Model):
     ipv_6 = models.GenericIPAddressField(unique=True, null=True, blank=True, default=None)
     price_per_month_6 = models.FloatField(default=0)
     subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE)
-
-
-

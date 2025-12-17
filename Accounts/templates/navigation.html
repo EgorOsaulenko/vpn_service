@@ -17,17 +17,12 @@
       </li>
       {% else %}
       <li class="nav-item">
-        <a class="nav-link {% if url_name == 'sign_up' %} active {% endif %}" aria-current="true" href="{% url 'sign_up' %}">Реєстрація</a>
+        <a class="nav-link {% if url_name == 'sign_up' %} active {% endif %}" aria-current="true" href="{% url 'sign_up' %}">Рестрація</a>
       </li>
       <li class="nav-item">
         <a class="nav-link {% if url_name == 'sign_in' %} active {% endif %}" aria-current="true" href="{% url 'sign_in' %}">Вхід</a>
       </li>
       {% endif %}
-      {% endwith %}
+    {% endwith %}
     </ul>
   </div>
-  <div class="card-body">
-    {% block content %}
-    {% endblock content %}
-  </div>
-</div>

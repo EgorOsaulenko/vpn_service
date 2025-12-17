@@ -16,6 +16,7 @@ import os
 from pymysql import install_as_MySQLdb
 from dotenv import load_dotenv
 
+
 install_as_MySQLdb()
 load_dotenv()
 
@@ -23,10 +24,11 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_ROOT = BASE_DIR / "media"
 MEDIA_URL = "/media/"
-LOGIN_URL = "/accounts/login"
+LOGIN_URL = "/sign_in/"
 SITE_ID = 1
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 
 LOGIN_REDIRECT_URL = '/' # Перенаправляти на головну сторінку
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
@@ -37,7 +39,6 @@ ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
-# Social login: конфіг для Google і моментальний перехід без проміжного екрану
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
         "SCOPE": ["profile", "email"],
@@ -47,7 +48,6 @@ SOCIALACCOUNT_PROVIDERS = {
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
 SESSION_COOKIE_AGE = 1209600 # 2 тижні
-
 
 
 # Quick-start development settings - unsuitable for production
@@ -80,10 +80,12 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'captcha',
     'rest_framework',
+
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -110,6 +112,7 @@ TEMPLATES = [
             'builtins': [
                 'django.templatetags.static',
             ],
+
         },
     },
 ]
@@ -120,17 +123,19 @@ WSGI_APPLICATION = 'VPN_Service.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
         'ENGINE': os.getenv("ENGINE"),
-        'NAME': os.getenv("NAME"),
-        'HOST': os.getenv("HOST"),
-        'PORT': os.getenv("PORT"),
-        'USER': os.getenv("USER"),
-        'PASSWORD': os.getenv("PASSWORD"),
+        'NAME': BASE_DIR / "db.sqlite3",
+        # 'NAME': BASE_DIR / os.getenv("NAME"),
+        # 'HOST': os.getenv("HOST"),
+        # 'PORT': os.getenv("PORT"),
+        # 'USER': os.getenv("USER"),
+        # 'PASSWORD': os.getenv("PASSWORD"),
         # 'OPTIONS': {
         #         'sslmode': 'require'
-        #     }
+        #         }
     }
 }
 
@@ -138,9 +143,10 @@ DATABASES = {
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://default:LoMb1xn3lj31NYtpXGBxZXfoqFagMti1@redis-14232.c135.eu-central-1-1.ec2.cloud.redislabs.com:14232",
+        "LOCATION": "redis://default:0AM6EQ5LiQAIBa7bPv1JhmNYNDGCUhy0@redis-10331.crce198.eu-central-1-3.ec2.cloud.redislabs.com:10331",
     }
 }
+
 
 
 # Password validation

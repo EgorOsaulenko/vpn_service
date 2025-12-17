@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% load static %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
 <h1>Вітаю {{ request.user.username }} в нашому анонімному світі!</h1>
 <h2>Активна підписка: <em>{{ request.user.service.subscription }}</em></h2>
 <h3>IPv4 local: <em>{{ request.user.service.ipv_4_local }}</em></h3>

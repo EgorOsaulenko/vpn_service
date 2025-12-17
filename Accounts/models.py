@@ -9,5 +9,3 @@ class Profile(models.Model):
     avatar = models.ImageField(upload_to=".", null=True, blank=True, default=None)
     bio = models.TextField(null=True, default=None)
     phone_number = models.CharField(max_length=18, null=True, default=None)
-
-   
